@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jazasoft</groupId>
-    <artifactId>authorization-server</artifactId>
+    <artifactId>auth-server</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
