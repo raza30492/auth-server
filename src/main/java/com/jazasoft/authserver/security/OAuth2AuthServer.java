@@ -10,9 +10,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import java.util.Arrays;
 
 /**
  * Created by mdzahidraza on 10/07/17.
@@ -25,18 +29,6 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
     private AuthenticationManager authenticationManager;
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore())
-                .accessTokenConverter(accessTokenConverter())
-                .authenticationManager(authenticationManager);
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-    @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("client")
@@ -46,6 +38,27 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
                 .scopes("read,write")
                 .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600);
+    }
+
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(
+                Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+
+        endpoints.tokenStore(tokenStore())
+                .tokenEnhancer(tokenEnhancerChain)
+                .authenticationManager(authenticationManager);
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
+    }
+
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
     }
 
     @Bean
@@ -63,4 +76,5 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
     }
+
 }
