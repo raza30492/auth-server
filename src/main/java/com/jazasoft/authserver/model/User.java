@@ -43,7 +43,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private Boolean credentialExpired;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Tenant tenant;
 
     @ManyToMany
