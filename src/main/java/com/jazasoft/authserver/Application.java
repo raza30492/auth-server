@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +44,11 @@ public class Application {
         List<String> list = new ArrayList<>();
         list.add("dozer_mapping.xml");
         return new DozerBeanMapper(list);
+    }
+
+    @Bean
+    public BearerTokenExtractor tokenExtractor() {
+        return new BearerTokenExtractor();
     }
 
 }

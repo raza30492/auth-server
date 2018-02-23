@@ -1,7 +1,7 @@
 package com.jazasoft.authserver.security;
 
+import com.jazasoft.authserver.TokenInterceptorFilter;
 import com.jazasoft.authserver.service.UrlInterceptorService;
-import com.jazasoft.authserver.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,7 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(new TokenInterceptorFilter(), FilterSecurityInterceptor.class);
         http
                 // Since we want the protected resources to be accessible in the UI as well we need
                 // session creation to be allowed (it's disabled by default in 2.0.6)
