@@ -7,6 +7,7 @@ public class ApiUrls {
     public static final String URL_USERS_USER = "/{userId}";
     public static final String URL_USERS_USER_COMPANY = "/{userId}/company";
     public static final String URL_USERS_USER_SEARCH_BY_EMAIL = "/search/byEmail";
+    public static final String URL_USERS_FORGOT_PASSWORD = "/forgotPassword";
 
     public static final String ROOT_URL_PRODUCTS = "/api/products";
     public static final String URL_PRODUCTS_PRODUCT = "/{productId}";

@@ -12,7 +12,7 @@ spring:
     password: zahid
 
   jpa:
-    show-sql: true
+    show-sql: false
     format-sql: true
     hibernate:
       ddl-auto: none

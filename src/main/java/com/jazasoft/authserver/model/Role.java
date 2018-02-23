@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Role extends BaseEntity {
 
+    public static final String ROLE_MASTER = "master";
+    public static final String ROLE_SUPER_USER = "super_user";
+    public static final String ROLE_ADMIN = "admin";
+
     @Column(nullable = false)
     private String roleId;
 

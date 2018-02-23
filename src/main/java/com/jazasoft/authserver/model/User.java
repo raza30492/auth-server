@@ -3,11 +3,14 @@ package com.jazasoft.authserver.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -46,7 +49,7 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     private Tenant tenant;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role_rel",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -76,7 +79,14 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if (roleList != null) {
+            List<GrantedAuthority> roles = new ArrayList<>();
+            for (Role role: roleList) {
+                roles.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleId()));
+            }
+            return roles;
+        }
+        return new ArrayList<>();
     }
 
     @Override

@@ -36,8 +36,8 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
                 .authorities("ROLE_USER")
                 .authorizedGrantTypes("password")
                 .scopes("read,write")
-                .accessTokenValiditySeconds(1800)
-                .refreshTokenValiditySeconds(3600);
+                .accessTokenValiditySeconds(43200)
+                .refreshTokenValiditySeconds(43200);
     }
 
     @Override
