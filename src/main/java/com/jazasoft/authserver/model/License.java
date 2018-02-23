@@ -1,8 +1,6 @@
 package com.jazasoft.authserver.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,9 +12,11 @@ public class License extends BaseEntity {
     @Column(nullable = false)
     private String productKey;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date purchasedOn;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date activatedOn;
 
     @Column(nullable = false)

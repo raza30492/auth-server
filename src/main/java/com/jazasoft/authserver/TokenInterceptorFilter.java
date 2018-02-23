@@ -27,11 +27,13 @@ public class TokenInterceptorFilter extends GenericFilterBean {
 
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         Authentication oauth = tokenExtractor.extract((HttpServletRequest) servletRequest);
-        String token = oauth.getPrincipal().toString();
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
-        Map<String, Object> additionalInfo = accessToken.getAdditionalInformation();
-        for (Map.Entry<String, Object> entry: additionalInfo.entrySet()) {
-            request.setAttribute(entry.getKey(), entry.getValue());
+        if (oauth != null && oauth.getPrincipal() != null) {
+            String token = oauth.getPrincipal().toString();
+            OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
+            Map<String, Object> additionalInfo = accessToken.getAdditionalInformation();
+            for (Map.Entry<String, Object> entry: additionalInfo.entrySet()) {
+                request.setAttribute(entry.getKey(), entry.getValue());
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

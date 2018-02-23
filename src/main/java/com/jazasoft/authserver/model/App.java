@@ -17,6 +17,9 @@ public class App extends BaseEntity {
     @Column(name = "description")
     private String desc;
 
+    @Column(nullable = false)
+    private String appPrefix;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "appList")
     private Set<User> userList;
@@ -78,5 +81,13 @@ public class App extends BaseEntity {
 
     public void setPermissionList(Set<Permission> permissionList) {
         this.permissionList = permissionList;
+    }
+
+    public String getAppPrefix() {
+        return appPrefix;
+    }
+
+    public void setAppPrefix(String appPrefix) {
+        this.appPrefix = appPrefix;
     }
 }

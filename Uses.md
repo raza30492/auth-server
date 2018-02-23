@@ -33,7 +33,8 @@ body:
 {
 	"appId": "tna",
 	"appName": "Time And Action Calender",
-	"desc": "Time And Action Calender"
+	"desc": "Time And Action Calender",
+	"appPrefix": "TNA"
 }
 
 ##Create Tenant:
@@ -61,4 +62,22 @@ body:
 	"tenant": {
 		"id": 1
 	}
+}
+
+##Generate License
+url: http://localhost:8080/api/licenses
+method: post
+body:
+{
+	"tenant": {
+		"id":2
+	},
+	"app": {
+		"id": 2
+	},
+	"validity": 30,
+	"entitlementType": "USERS",
+	"entitlement": 10,
+	"licenseType": "TRIAL",
+	"licenseFlavour": "EXPRESS"
 }
