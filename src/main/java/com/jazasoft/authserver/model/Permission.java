@@ -1,8 +1,6 @@
 package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,8 +9,6 @@ import java.io.Serializable;
  * Entity class stores  various Application specific dynamic permissions to be granted to user
  *
  */
-@NoArgsConstructor
-@Data
 @Entity
 public class Permission implements Serializable {
 
@@ -55,4 +51,55 @@ public class Permission implements Serializable {
     @JsonIgnore
     @ManyToOne
     private User user;
+
+    public Permission() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(String permissionId) {
+        this.permissionId = permissionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public App getApp() {
+        return app;
+    }
+
+    public void setApp(App app) {
+        this.app = app;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

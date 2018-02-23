@@ -46,7 +46,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        logger.debug("findByUsername(): username = " , username);
+        logger.debug("findByUsername(): username = {}" , username);
         return userRepository.findOneByUsername(username);
     }
 

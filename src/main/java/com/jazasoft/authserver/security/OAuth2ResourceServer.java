@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.security;
 
 import com.jazasoft.authserver.service.UrlInterceptorService;
+import com.jazasoft.authserver.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
 package com.jazasoft.authserver.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +11,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
@@ -47,7 +42,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private Boolean credentialExpired;
 
-    @JsonIgnore
     @ManyToOne
     private Tenant tenant;
 
@@ -66,6 +60,9 @@ public class User extends BaseEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "app_id")
     )
     private Set<App> appList;
+
+    public User() {
+    }
 
     public User(String firstName, String lastName, String username, String email, String password, String mobile) {
         this.firstName = firstName;
@@ -119,5 +116,89 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return credentialExpired != null && !credentialExpired;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Boolean getAccountExpired() {
+        return accountExpired;
+    }
+
+    public void setAccountExpired(Boolean accountExpired) {
+        this.accountExpired = accountExpired;
+    }
+
+    public Boolean getAccountLocked() {
+        return accountLocked;
+    }
+
+    public void setAccountLocked(Boolean accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    public Boolean getCredentialExpired() {
+        return credentialExpired;
+    }
+
+    public void setCredentialExpired(Boolean credentialExpired) {
+        this.credentialExpired = credentialExpired;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    public Set<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(Set<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public Set<App> getAppList() {
+        return appList;
+    }
+
+    public void setAppList(Set<App> appList) {
+        this.appList = appList;
     }
 }

@@ -1,5 +1,6 @@
 package com.jazasoft.authserver.security;
 
+import com.jazasoft.authserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,9 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    UserService userService;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -53,7 +57,7 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter{
 
     @Bean
     public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
+        return new CustomTokenEnhancer(userService);
     }
 
     @Bean

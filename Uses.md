@@ -1,4 +1,29 @@
 #Create User:
+url: http://localhost:8080/api/users
+method: post
+{
+	"firstName": "Md Taufeeque",
+	"lastName": "Alam",
+	"username": "taufeeque8",
+	"email": "taufeeque8@gmail.com",
+	"mobile": "8904360418",
+	"accountLocked": false,
+	"accountExpired": false,
+	"credentialExpired": false,
+	"tenant": {
+		"id": 1
+	},
+	"appList": [
+		{
+			"id": 1
+		}
+	],
+	"roleList": [
+		{
+			"id": 2
+		}
+	]
+}
 
 
 ##Create App:
