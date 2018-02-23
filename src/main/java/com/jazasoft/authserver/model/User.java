@@ -1,5 +1,6 @@
 package com.jazasoft.authserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,7 +47,8 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private Boolean credentialExpired;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne
     private Tenant tenant;
 
     @ManyToMany(fetch = FetchType.EAGER)

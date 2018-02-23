@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +30,7 @@ public class Resource extends BaseEntity {
     @Column(name = "description")
     private String desc;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
-    //@JoinColumn(name = "app_id")
     private App app;
 }

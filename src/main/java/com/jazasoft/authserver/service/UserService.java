@@ -2,6 +2,7 @@ package com.jazasoft.authserver.service;
 
 import com.jazasoft.authserver.model.User;
 import com.jazasoft.authserver.repository.UserRepository;
+import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,11 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final Mapper mapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, Mapper mapper) {
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     public User findOne(Long id) {
@@ -65,15 +68,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    @Transactional
-//    public User update(UserDto userDto) {
-//        logger.debug("update()");
-//        User user = userRepository.findOne(userDto.getId());
-//        System.out.println("UserDto = " + userDto);
-//        mapper.map(userDto,user);
-//        System.out.println("User = " + user);
-//        return user;
-//    }
+    @Transactional
+    public User update(User user) {
+        logger.debug("update()");
+        User user2 = userRepository.findOne(user.getId());
+        mapper.map(user,user2);
+        return user2;
+    }
 
     @Transactional
     public void delete(Long id) {
@@ -82,16 +83,4 @@ public class UserService {
         user.setEnabled(false);
     }
 
-//    @Transactional
-//    public User saveUserCompany(Long userId, Company company) {
-//        logger.debug("saveUserCompany: userId = {}", userId);
-//        User user = userRepository.findOne(userId);
-//        if (user.getCompany() == null){
-//            user.setCompany(company);
-//        }else {
-//            mapper.map(company, user.getCompany());
-//        }
-//        company.setUser(user);
-//        return user;
-//    }
 }

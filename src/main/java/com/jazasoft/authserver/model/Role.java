@@ -1,5 +1,6 @@
 package com.jazasoft.authserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,12 +33,12 @@ public class Role extends BaseEntity {
     @Column(nullable = false)
     private Boolean isDefault;
 
+    @JsonIgnore
     @ManyToOne
-    //@JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
+    @JsonIgnore
     @ManyToOne
-    //@JoinColumn(name = "app_id")
     private App app;
 
 }

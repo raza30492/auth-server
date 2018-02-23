@@ -4,12 +4,16 @@ import com.jazasoft.authserver.model.Role;
 import com.jazasoft.authserver.model.User;
 import com.jazasoft.authserver.repository.RoleRepository;
 import com.jazasoft.authserver.repository.UserRepository;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by mdzahidraza on 10/07/17.
@@ -32,6 +36,13 @@ public class Application {
             user.setRoleList(Collections.singleton(master));
             userRepository.save(user);
         };
+    }
+
+    @Bean
+    public Mapper dozerBeanMapper() {
+        List<String> list = new ArrayList<>();
+        list.add("dozer_mapping.xml");
+        return new DozerBeanMapper(list);
     }
 
 }

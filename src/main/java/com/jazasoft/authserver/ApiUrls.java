@@ -9,10 +9,19 @@ public class ApiUrls {
     public static final String URL_USERS_USER_SEARCH_BY_EMAIL = "/search/byEmail";
     public static final String URL_USERS_FORGOT_PASSWORD = "/forgotPassword";
 
-    public static final String ROOT_URL_PRODUCTS = "/api/products";
-    public static final String URL_PRODUCTS_PRODUCT = "/{productId}";
-    public static final String URL_PRODUCTS_FLAVOURS = "/flavours";
-    public static final String URL_PRODUCTS_PRODUCT_SEARCH_BY_NAME = "/search/byName";
+    public static final String ROOT_URL_APPS = "/api/apps";
+    public static final String URL_APPS_APP = "/{appId}";
+    public static final String URL_APPS_FLAVOURS = "/flavours";
+    public static final String URL_APPS_APP_SEARCH_BY_APP_ID = "/search/byAppId";
+
+    public static final String ROOT_URL_TENANTS = "/api/tenants";
+    public static final String URL_TENANTS_TENANT = "/{tenantId}";
+    public static final String URL_TENANTS_TENANT_SEARCH_BY_TENANT_ID = "/search/byTenantId";
+
+    public static final String ROOT_URL_ROLES = "/api/roles";
+    public static final String URL_ROLES_ROLE = "/{roleId}";
+    public static final String URL_ROLES_ROLE_SEARCH_BY_ROLE_ID = "/search/byRoleId";
+
 
     public static final String ROOT_URL_CLIENTS = "/api/clients";
     public static final String URL_CLIENTS_CLIENT = "/{clientId}";

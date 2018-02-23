@@ -1,5 +1,6 @@
 package com.jazasoft.authserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -47,9 +48,11 @@ public class Permission implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     private App app;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 }
