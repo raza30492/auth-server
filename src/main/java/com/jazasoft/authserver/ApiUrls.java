@@ -23,9 +23,9 @@ public class ApiUrls {
     public static final String URL_ROLES_ROLE_SEARCH_BY_ROLE_ID = "/search/byRoleId";
 
 
-    public static final String ROOT_URL_CLIENTS = "/api/clients";
-    public static final String URL_CLIENTS_CLIENT = "/{clientId}";
-    public static final String URL_CLIENTS_CLIENT_SEARCH_BY_NAME = "/search/byName";
+    public static final String ROOT_URL_RESOURCES = "/api/resources";
+    public static final String URL_RESOURCES_RESOURCE = "/{resourceId}";
+    public static final String URL_RESOURCES_RESOURCE_SEARCH_BY_RESOURCE_ID = "/search/byResourceId";
 
     public static final String ROOT_URL_LICENSES = "/api/licenses";
     public static final String URL_LICENSES_LICENSE = "/{licenseId}";

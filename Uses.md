@@ -34,7 +34,8 @@ body:
 	"appId": "tna",
 	"appName": "Time And Action Calender",
 	"desc": "Time And Action Calender",
-	"appPrefix": "TNA"
+	"appPrefix": "TNA",
+	"endpoint": ""
 }
 
 ##Create Tenant:

@@ -20,6 +20,8 @@ public class App extends BaseEntity {
     @Column(nullable = false)
     private String appPrefix;
 
+    private String endpoint;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "appList")
     private Set<User> userList;
@@ -89,5 +91,13 @@ public class App extends BaseEntity {
 
     public void setAppPrefix(String appPrefix) {
         this.appPrefix = appPrefix;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 }

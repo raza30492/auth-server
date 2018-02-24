@@ -1,28 +1,28 @@
-- !com.jazasoft.authserver.dto.UrlInterceptor
-   url: /api/users
-   scopes: !java.util.Arrays$ArrayList
-   - !com.jazasoft.authserver.dto.Scope
-      method: get
-      roles: master,super_user,admin
-      scope: read
-   - !com.jazasoft.authserver.dto.Scope
-      method: post
-      roles: master,super_user,admin
-      scope: write
-
-- !com.jazasoft.authserver.dto.UrlInterceptor
-   url: /api/users/{\d+}
-   scopes: !java.util.Arrays$ArrayList
-   - !com.jazasoft.authserver.dto.Scope
-      method: get
-      roles: master,super_user,admin
-      scope: read
-   - !com.jazasoft.authserver.dto.Scope
-      method: put
-      roles: master,super_user,admin
-      scope: write
-   - !com.jazasoft.authserver.dto.Scope
-      method: delete
-      roles: master,super_user,admin
-      scope: delete
-
+#- !com.jazasoft.authserver.dto.UrlInterceptor
+#   url: /api/users
+#   scopes: !java.util.Arrays$ArrayList
+#   - !com.jazasoft.authserver.dto.Scope
+#      method: get
+#      roles: master,super_user,admin
+#      scope: read
+#   - !com.jazasoft.authserver.dto.Scope
+#      method: post
+#      roles: master,super_user,admin
+#      scope: write
+#
+#- !com.jazasoft.authserver.dto.UrlInterceptor
+#   url: /api/users/{\d+}
+#   scopes: !java.util.Arrays$ArrayList
+#   - !com.jazasoft.authserver.dto.Scope
+#      method: get
+#      roles: master,super_user,admin
+#      scope: read
+#   - !com.jazasoft.authserver.dto.Scope
+#      method: put
+#      roles: master,super_user,admin
+#      scope: write
+#   - !com.jazasoft.authserver.dto.Scope
+#      method: delete
+#      roles: master,super_user,admin
+#      scope: delete
+#

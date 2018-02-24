@@ -2,10 +2,8 @@ package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Role extends BaseEntity {
@@ -36,6 +34,14 @@ public class Role extends BaseEntity {
     @JsonIgnore
     @ManyToOne
     private App app;
+
+    @ManyToMany
+    @JoinTable(
+            name = "role_resource_rel",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id")
+    )
+    private Set<Resource> resourceList;
 
     public Role() {
     }
@@ -98,5 +104,13 @@ public class Role extends BaseEntity {
 
     public void setApp(App app) {
         this.app = app;
+    }
+
+    public Set<Resource> getResourceList() {
+        return resourceList;
+    }
+
+    public void setResourceList(Set<Resource> resourceList) {
+        this.resourceList = resourceList;
     }
 }
