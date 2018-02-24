@@ -3,6 +3,9 @@ package com.jazasoft.authserver.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,15 +38,37 @@ public class Role extends BaseEntity {
     @ManyToOne
     private App app;
 
-    @ManyToMany
-    @JoinTable(
-            name = "role_resource_rel",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "resource_id")
+    @OneToMany(
+            mappedBy = "role",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Set<Resource> resourceList;
+    private Set<RoleResource> resourceList = new HashSet<>();
 
     public Role() {
+    }
+
+    public Role(String roleId, String name) {
+        this.roleId = roleId;
+        this.name = name;
+    }
+
+    public void addResource(Resource resource, String scopes) {
+        RoleResource roleResource = new RoleResource(this, resource, scopes);
+        resourceList.add(roleResource);
+        resource.getRoleList().add(roleResource);
+    }
+
+    public void removeResource(Resource resource) {
+        for (Iterator<RoleResource> itr = resourceList.iterator(); itr.hasNext(); ) {
+           RoleResource roleResource = itr.next();
+           if (roleResource.getRole().equals(this) && roleResource.getResource().equals(resource)) {
+               itr.remove();
+               roleResource.setRole(null);
+               roleResource.setResource(null);
+               roleResource.getResource().getRoleList().remove(roleResource);
+           }
+        }
     }
 
     public static String getRoleMaster() {
@@ -106,11 +131,17 @@ public class Role extends BaseEntity {
         this.app = app;
     }
 
-    public Set<Resource> getResourceList() {
-        return resourceList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Role role = (Role) o;
+        return Objects.equals(roleId, role.roleId);
     }
 
-    public void setResourceList(Set<Resource> resourceList) {
-        this.resourceList = resourceList;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), roleId);
     }
 }

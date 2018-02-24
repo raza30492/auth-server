@@ -1,10 +1,13 @@
 package com.jazasoft.authserver.service;
 
+import com.jazasoft.authserver.model.Resource;
 import com.jazasoft.authserver.model.Role;
+import com.jazasoft.authserver.repository.ResourceRepository;
 import com.jazasoft.authserver.repository.RoleRepository;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,8 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
     private final Mapper mapper;
+    @Autowired
+    private ResourceRepository resourceRepository;
 
     public RoleService(RoleRepository roleRepository, Mapper mapper) {
         this.roleRepository = roleRepository;
@@ -62,6 +67,14 @@ public class RoleService {
         Role role2 = roleRepository.findOne(role.getId());
         mapper.map(role,role2);
         return role2;
+    }
+
+    @Transactional
+    public Role addResource(Long roleId, Long resourceId) {
+        Resource resource = resourceRepository.findOne(resourceId);
+        Role role = roleRepository.findOne(roleId);
+        role.addResource(resource, "read, write");
+        return role;
     }
 
     @Transactional

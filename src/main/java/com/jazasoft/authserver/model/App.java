@@ -37,6 +37,12 @@ public class App extends BaseEntity {
     public App() {
     }
 
+    public App(String appId, String appName, String appPrefix) {
+        this.appId = appId;
+        this.appName = appName;
+        this.appPrefix = appPrefix;
+    }
+
     public String getAppId() {
         return appId;
     }

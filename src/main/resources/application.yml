@@ -7,7 +7,7 @@ spring:
   datasource:
     ###### PostgreSQL Configuration #######
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/auth_server
+    url: jdbc:postgresql://localhost:5432/auth_server1
     username: mdzahidraza
     password: zahid
 
@@ -15,11 +15,11 @@ spring:
     show-sql: false
     format-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 liquibase:
-  enabled: true
+  enabled: false
   change-log: 'classpath:/db/changelog-master.xml'
