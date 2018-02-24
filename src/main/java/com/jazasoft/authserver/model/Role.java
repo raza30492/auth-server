@@ -1,8 +1,10 @@
 package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jazasoft.authserver.dto.ResourceScope;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
@@ -30,11 +32,9 @@ public class Role extends BaseEntity {
     @Column(nullable = false)
     private Boolean isDefault;
 
-    @JsonIgnore
     @ManyToOne
     private Tenant tenant;
 
-    @JsonIgnore
     @ManyToOne
     private App app;
 
@@ -44,6 +44,10 @@ public class Role extends BaseEntity {
             orphanRemoval = true
     )
     private Set<RoleResource> resourceList = new HashSet<>();
+
+    @Valid
+    @Transient
+    private Set<ResourceScope> resources;
 
     public Role() {
     }
@@ -129,6 +133,18 @@ public class Role extends BaseEntity {
 
     public void setApp(App app) {
         this.app = app;
+    }
+
+    public Set<ResourceScope> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<ResourceScope> resources) {
+        this.resources = resources;
+    }
+
+    public Set<RoleResource> getResourceList() {
+        return resourceList;
     }
 
     @Override

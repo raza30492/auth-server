@@ -33,18 +33,16 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner init(
             RoleRepository roleRepository,
-            UserRepository userRepository,
-            RoleService roleService) {
+            UserRepository userRepository) {
 
         return (args) -> {
-//            Role master = roleRepository.findOne(1L);
-//            User user = new User("Md Zahid", "Raza", "zahid7292","zahid7292@gmail.com","Munnu@90067","890430418");
-//            user.setRoleList(Collections.singleton(master));
-//            userRepository.save(user);
-            roleService.addResource(2L, 2L);
+            Role master = roleRepository.findOne(1L);
+            User user = new User("Md Zahid", "Raza", "zahid7292","zahid7292@gmail.com","Munnu@90067","890430418");
+            user.setRoleList(Collections.singleton(master));
+            userRepository.save(user);
         };
     }
 

@@ -7,7 +7,7 @@ spring:
   datasource:
     ###### PostgreSQL Configuration #######
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/auth_server1
+    url: jdbc:postgresql://localhost:5432/auth_server2
     username: mdzahidraza
     password: zahid
 

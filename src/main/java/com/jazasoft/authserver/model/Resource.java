@@ -20,10 +20,10 @@ public class Resource extends BaseEntity {
     @Column(name = "description")
     private String desc;
 
-    @JsonIgnore
     @ManyToOne(optional = false)
     private App app;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "resource",
             cascade = CascadeType.ALL,

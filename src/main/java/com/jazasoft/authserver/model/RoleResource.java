@@ -1,5 +1,7 @@
 package com.jazasoft.authserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,12 +10,14 @@ import java.util.Objects;
 public class RoleResource {
 
     @EmbeddedId
-    private RoleResourceId id;
+    private RoleResourceId id = new RoleResourceId();
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("roleId")
     private Role role;
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("resourceId")
     private Resource resource;

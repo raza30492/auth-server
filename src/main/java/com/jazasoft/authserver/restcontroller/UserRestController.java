@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.restcontroller;
 
 import com.jazasoft.authserver.ApiUrls;
+import com.jazasoft.authserver.Constants;
 import com.jazasoft.authserver.model.User;
 import com.jazasoft.authserver.service.UserService;
 import org.slf4j.Logger;
@@ -10,8 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(ApiUrls.ROOT_URL_USERS)

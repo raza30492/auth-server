@@ -2,8 +2,11 @@ package com.jazasoft.authserver.security;
 
 import com.jazasoft.authserver.Constants;
 import com.jazasoft.authserver.model.App;
+import com.jazasoft.authserver.model.Role;
+import com.jazasoft.authserver.model.RoleResource;
 import com.jazasoft.authserver.model.User;
 import com.jazasoft.authserver.service.UserService;
+import com.jazasoft.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -14,8 +17,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by mdzahidraza on 11/11/17.
@@ -50,7 +53,26 @@ public class CustomTokenEnhancer implements TokenEnhancer {
                 App app = user.getAppList().stream().filter(a -> appId.equalsIgnoreCase(a.getAppId())).findAny().orElse(null);
                 if (app != null) {
                     additionalInfo.put(Constants.APP_KEY, app.getAppId());
-                    additionalInfo.put(Constants.RESOURCES_KEY, "");
+                    if (user.getRoleList() != null) {
+                        /**
+                         * If User is Admin, No need to specify resource as he has full access to all resources
+                         */
+                        boolean isAdmin = user.getRoleList().stream().filter(role -> Role.ROLE_ADMIN.equalsIgnoreCase(role.getRoleId())).count() == 1;
+                        if (!isAdmin) {
+                            Map<String, Set<String>> resources = new HashMap<>();
+                            List<Role> roles = user.getRoleList().stream().filter(role -> role.getApp() != null && role.getApp().getId().equals(app.getId())).collect(Collectors.toList());
+                            for (Role role: roles) {
+                                for (RoleResource roleResource: role.getResourceList()) {
+                                    String resourceId = roleResource.getResource().getResourceId();
+                                    Set<String> scopes = new HashSet<>(Utils.getListFromCsv(roleResource.getScopes()));
+                                    Set<String> scopeSet = resources.getOrDefault(resourceId, new HashSet<>());
+                                    scopeSet.addAll(scopes);
+                                    resources.put(resourceId, scopeSet);
+                                }
+                            }
+                            additionalInfo.put(Constants.RESOURCES_KEY, resources);
+                        }
+                    }
                 }
             }
         } else {

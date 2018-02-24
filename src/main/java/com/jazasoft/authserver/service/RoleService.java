@@ -1,7 +1,10 @@
 package com.jazasoft.authserver.service;
 
+import com.jazasoft.authserver.dto.ResourceScope;
+import com.jazasoft.authserver.model.App;
 import com.jazasoft.authserver.model.Resource;
 import com.jazasoft.authserver.model.Role;
+import com.jazasoft.authserver.repository.AppRepository;
 import com.jazasoft.authserver.repository.ResourceRepository;
 import com.jazasoft.authserver.repository.RoleRepository;
 import org.dozer.Mapper;
@@ -22,6 +25,8 @@ public class RoleService {
     private final Mapper mapper;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private AppRepository appRepository;
 
     public RoleService(RoleRepository roleRepository, Mapper mapper) {
         this.roleRepository = roleRepository;
@@ -57,8 +62,20 @@ public class RoleService {
     @Transactional
     public Role save(Role role) {
         logger.debug("save()");
+
         role.setEnabled(true);
-        return roleRepository.save(role);
+        role = roleRepository.save(role);
+        if (role.getResources() != null) {
+            for (ResourceScope resourceScope: role.getResources()) {
+                if (resourceScope.getId() != null && resourceScope.getScope() != null) {
+                    Resource resource = resourceRepository.findOne(resourceScope.getId());
+                    if (resource != null) {
+                        role.addResource(resource, resourceScope.getScope());
+                    }
+                }
+            }
+        }
+        return role;
     }
 
     @Transactional
@@ -67,14 +84,6 @@ public class RoleService {
         Role role2 = roleRepository.findOne(role.getId());
         mapper.map(role,role2);
         return role2;
-    }
-
-    @Transactional
-    public Role addResource(Long roleId, Long resourceId) {
-        Resource resource = resourceRepository.findOne(resourceId);
-        Role role = roleRepository.findOne(roleId);
-        role.addResource(resource, "read, write");
-        return role;
     }
 
     @Transactional
