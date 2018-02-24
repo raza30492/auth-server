@@ -1,3 +1,12 @@
+##Steps:
+1. Create Application
+2. Create Resources
+3. Create Roles
+4. configure dynamic permissions (if applicable for app) in permission.yml
+5. Create Tenant
+6. Issue License for Application
+7. Create Super User for Tenant
+
 #Create User:
 url: http://localhost:8080/api/users
 method: post
@@ -48,12 +57,12 @@ body:
 	"desc": ""
 }
 
-##Create Role:
-url: http://localhost:8080/api/roles
+##Create Resource:
+url: http://localhost:8080/api/resources
 method: post
 body:
 {
-	"roleId": "merchandiser",
+	"resourceId": "merchandiser",
 	"name": "Merchandiser",
 	"desc": "",
 	"isDefault": true,
@@ -63,6 +72,27 @@ body:
 	"tenant": {
 		"id": 1
 	}
+}
+
+##Create Role:
+url: http://localhost:8080/api/roles
+method: post
+body:
+{
+	"roleId": "logistics",
+	"name": "Logistics",
+	"desc": "",
+	"default": "true",
+	"app": {
+		"id": 1
+	},
+	"tenant": {
+		"id": 1
+	},
+	"resources": [
+		{"id": 9, "scope": "read"},
+		{"id": 10, "scope": "read,write,update"}
+	]
 }
 
 ##Generate License

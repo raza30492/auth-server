@@ -2,6 +2,7 @@ package com.jazasoft.authserver.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,11 +12,13 @@ import java.util.Set;
 @Entity
 public class Resource extends BaseEntity {
 
+    @NotEmpty
     @Column(nullable = false)
     private String resourceId;
 
+    @NotEmpty
     @Column(nullable = false)
-    private String resourceName;
+    private String name;
 
     @Column(name = "description")
     private String desc;
@@ -34,9 +37,9 @@ public class Resource extends BaseEntity {
     public Resource() {
     }
 
-    public Resource(String resourceId, String resourceName) {
+    public Resource(String resourceId, String name) {
         this.resourceId = resourceId;
-        this.resourceName = resourceName;
+        this.name = name;
     }
 
     public String getResourceId() {
@@ -47,12 +50,12 @@ public class Resource extends BaseEntity {
         this.resourceId = resourceId;
     }
 
-    public String getResourceName() {
-        return resourceName;
+    public String getName() {
+        return name;
     }
 
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDesc() {

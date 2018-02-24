@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +11,11 @@ import java.util.Set;
 @Entity
 public class Tenant extends BaseEntity {
 
+    @NotEmpty
     @Column(nullable = false)
     private String tenantId;
 
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 

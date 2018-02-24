@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,7 +58,7 @@ public class RoleRestController {
     }
 
     @PutMapping(ApiUrls.URL_ROLES_ROLE)
-    public ResponseEntity<?> updateRole(@PathVariable("roleId") long id,@Validated @RequestBody Role role) {
+    public ResponseEntity<?> updateRole(@PathVariable("roleId") long id,@Valid @RequestBody Role role) {
         logger.debug("updateRole(): id = {}",id);
         if (!roleService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

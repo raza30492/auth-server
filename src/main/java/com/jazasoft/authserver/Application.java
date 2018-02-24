@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +34,23 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    //@Bean
+    @Bean
     CommandLineRunner init(
             RoleRepository roleRepository,
             UserRepository userRepository) {
 
         return (args) -> {
-            Role master = roleRepository.findOne(1L);
-            User user = new User("Md Zahid", "Raza", "zahid7292","zahid7292@gmail.com","Munnu@90067","890430418");
-            user.setRoleList(Collections.singleton(master));
-            userRepository.save(user);
+            if (roleRepository.count() == 0) {
+                Role master = new Role("master", "Master", "User for managing all tenants.",true);
+                Role superUser = new Role("super_user", "Super User", "User for managing all apps purchased by a tenant.",true);
+                Role admin = new Role("admin", "Admin", "User for managing specific app.",true);
+                master = roleRepository.save(master);
+                roleRepository.save(superUser);
+                roleRepository.save(admin);
+                User user = new User("Md Zahid", "Raza", "zahid7292","zahid7292@gmail.com","Munnu@90067","890430418");
+                user.setRoleList(Collections.singleton(master));
+                userRepository.save(user);
+            }
         };
     }
 
@@ -51,6 +59,13 @@ public class Application {
         List<String> list = new ArrayList<>();
         list.add("dozer_mapping.xml");
         return new DozerBeanMapper(list);
+    }
+
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        return messageSource;
     }
 
     @Bean

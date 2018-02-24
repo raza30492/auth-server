@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class UrlInterceptorService {
     private final Logger logger = LoggerFactory.getLogger(UrlInterceptorService.class);
-    private Map<String, UrlInterceptor> urlInterceptorMap = new HashMap<>();
+    private Map<String, UrlInterceptor> urlInterceptorCache = new HashMap<>();
 
     public UrlInterceptorService() {
         String filename = Utility.getAppHome() + File.separator + "conf" + File.separator + "url-interceptor.yml";
@@ -27,7 +27,7 @@ public class UrlInterceptorService {
             List<UrlInterceptor> interceptors = (ArrayList<UrlInterceptor>)YamlUtils.getInstance().getProperty(file);
             if (interceptors != null && !interceptors.isEmpty()) {
                 for (UrlInterceptor interceptor: interceptors) {
-                    urlInterceptorMap.put(interceptor.getUrl(), interceptor);
+                    urlInterceptorCache.put(interceptor.getUrl(), interceptor);
                 }
             } else {
                 logger.warn("No Url Interceptor entry found in file = {}", file.getAbsolutePath());
@@ -41,7 +41,7 @@ public class UrlInterceptorService {
     }
 
     public UrlInterceptor getUrlInterceptor(String url) {
-        return urlInterceptorMap.get(url);
+        return urlInterceptorCache.get(url);
     }
 }
 

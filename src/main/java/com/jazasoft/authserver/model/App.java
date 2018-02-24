@@ -3,20 +3,24 @@ package com.jazasoft.authserver.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
 public class App extends BaseEntity {
 
+    @NotNull
     @Column(nullable = false)
     private String appId;
 
+    @NotNull
     @Column(nullable = false)
     private String appName;
 
     @Column(name = "description")
     private String desc;
 
+    @NotNull
     @Column(nullable = false)
     private String appPrefix;
 

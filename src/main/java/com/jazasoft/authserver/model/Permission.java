@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +35,7 @@ public class Permission implements Serializable {
      *     ...
      * }
      */
+    @NotEmpty
     @Column(nullable = false)
     private String permissionId;
 
@@ -41,6 +43,7 @@ public class Permission implements Serializable {
      * Display Name of the Entity which will be used by auth server application while associating any user with entity
      * e.g: Dressmann, Hacket, Fabric Launch
      */
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
@@ -51,6 +54,10 @@ public class Permission implements Serializable {
     @JsonIgnore
     @ManyToOne
     private User user;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    private Tenant tenant;
 
     public Permission() {
     }
@@ -101,5 +108,13 @@ public class Permission implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 }

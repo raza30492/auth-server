@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-1">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-1">
         <createTable tableName="app">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="app_pkey"/>
@@ -20,7 +20,7 @@
             <column name="endpoint" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-2">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-2">
         <createTable tableName="license">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="license_pkey"/>
@@ -63,7 +63,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-3">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-3">
         <createTable tableName="permission">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="permission_pkey"/>
@@ -80,10 +80,13 @@
             <column name="app_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="tenant_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="user_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-4">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-4">
         <createTable tableName="resource">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="resource_pkey"/>
@@ -94,10 +97,7 @@
             <column name="resource_id" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="resource_name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="scope" type="VARCHAR(255)">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="app_id" type="BIGINT">
@@ -105,7 +105,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-5">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-5">
         <createTable tableName="role">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="role_pkey"/>
@@ -126,17 +126,18 @@
             <column name="tenant_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-6">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-6">
         <createTable tableName="role_resource_rel">
-            <column name="role_id" type="BIGINT">
+            <column name="scopes" type="VARCHAR(255)"/>
+            <column name="resource_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="resource_id" type="BIGINT">
+            <column name="role_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-7">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-7">
         <createTable tableName="tenant">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="tenant_pkey"/>
@@ -153,7 +154,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-8">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-8">
         <createTable tableName="user_app_rel">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -163,7 +164,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-9">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-9">
         <createTable tableName="user_role_rel">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -173,7 +174,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-10">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-10">
         <createTable tableName="users">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="users_pkey"/>
@@ -210,74 +211,113 @@
             <column name="tenant_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-14">
-        <addPrimaryKey columnNames="role_id, resource_id" constraintName="role_resource_rel_pkey" tableName="role_resource_rel"/>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-11">
+        <addPrimaryKey columnNames="resource_id, role_id" constraintName="role_resource_rel_pkey" tableName="role_resource_rel"/>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-15">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-12">
         <addPrimaryKey columnNames="user_id, app_id" constraintName="user_app_rel_pkey" tableName="user_app_rel"/>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-16">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-13">
         <addPrimaryKey columnNames="user_id, role_id" constraintName="user_role_rel_pkey" tableName="user_role_rel"/>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-17">
-        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="resource" constraintName="fk338j0gyc93a8uhgwyykin7nt7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-14">
+        <createIndex indexName="uk_app_app_id" tableName="app" unique="true">
+            <column name="lower((app_id)::text)"/>
+        </createIndex>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-18">
-        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="permission" constraintName="fk4fabuj12wnluh0roaohkm4o6o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-19">
-        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role_rel" constraintName="fk54s9mx20erdgh0pnrh6fc6ujv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-20">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_app_rel" constraintName="fk74wupfy22qrv94bc993akxm5t" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-21">
-        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="license" constraintName="fk8wokayf0auayvrho80rj13j8q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-22">
-        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="user_app_rel" constraintName="fkbbtm3a65ey6bhumr1s773qh8f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-23">
-        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="role" constraintName="fkf08bg28kh2xfj27r4ejarvv8x" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-24">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role_rel" constraintName="fkg5vf9w8a3n4wq62i6e86v10hl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-25">
-        <addForeignKeyConstraint baseColumnNames="resource_id" baseTableName="role_resource_rel" constraintName="fkj2symic4fb8hxtajkhocher04" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="resource"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-26">
-        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="users" constraintName="fkl68ecas1t5bsdsdkq9m1yy4eo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-27">
-        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="license" constraintName="fkpb0sce77esxmo8266pjlqwh49" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-28">
-        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="role" constraintName="fkt8nccycnbpyc52fauighe9lv5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-29">
-        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_resource_rel" constraintName="fkthoei5wda25g297fq8bf1n1cq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-30">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="permission" constraintName="fktpvwdvckg86mpuk9o2j1h6t15" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-31">
-        <insert tableName="role">
-            <column name="id" valueNumeric="1"/>
-            <column name="enabled" valueBoolean="true"/>
-            <column name="modified_at" valueDate="2018-02-24 10:34:22.076"/>
-            <column name="description" value="Master For Managing Tenants"/>
-            <column name="is_default" valueBoolean="true"/>
-            <column name="name" value="Master"/>
-            <column name="role_id" value="master"/>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-15">
+        <createIndex indexName="uk_license_app_id_and_tenant_id" tableName="license" unique="true">
             <column name="app_id"/>
             <column name="tenant_id"/>
-        </insert>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-16">
+        <createIndex indexName="uk_permission_app_id_and_tenant_id_and_key_and_permission_id" tableName="permission" unique="true">
+            <column name="app_id"/>
+            <column name="tenant_id"/>
+            <column name="lower((key)::text)"/>
+            <column name="lower((permission_id)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-17">
+        <createIndex indexName="uk_resource_app_id_and_resource_id" tableName="resource" unique="true">
+            <column name="app_id"/>
+            <column name="lower((resource_id)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-18">
+        <createIndex indexName="uk_role_app_id_and_role_id" tableName="role" unique="true">
+            <column name="app_id"/>
+            <column name="lower((role_id)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-19">
+        <createIndex indexName="uk_tenant_tenant_id" tableName="tenant" unique="true">
+            <column name="lower((tenant_id)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-20">
+        <createIndex indexName="uk_user_email" tableName="users" unique="true">
+            <column name="lower((email)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-21">
+        <createIndex indexName="uk_user_username" tableName="users" unique="true">
+            <column name="lower((username)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-22">
+        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="resource" constraintName="fk338j0gyc93a8uhgwyykin7nt7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-23">
+        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="permission" constraintName="fk4fabuj12wnluh0roaohkm4o6o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-24">
+        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="permission" constraintName="fk516d52s8lgik1l7jf819qtbyh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-25">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role_rel" constraintName="fk54s9mx20erdgh0pnrh6fc6ujv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-26">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_app_rel" constraintName="fk74wupfy22qrv94bc993akxm5t" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-27">
+        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="license" constraintName="fk8wokayf0auayvrho80rj13j8q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-28">
+        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="user_app_rel" constraintName="fkbbtm3a65ey6bhumr1s773qh8f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-29">
+        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="role" constraintName="fkf08bg28kh2xfj27r4ejarvv8x" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-30">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role_rel" constraintName="fkg5vf9w8a3n4wq62i6e86v10hl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-31">
+        <addForeignKeyConstraint baseColumnNames="resource_id" baseTableName="role_resource_rel" constraintName="fkj2symic4fb8hxtajkhocher04" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="resource"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-32">
+        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="users" constraintName="fkl68ecas1t5bsdsdkq9m1yy4eo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-33">
+        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="license" constraintName="fkpb0sce77esxmo8266pjlqwh49" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tenant"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-34">
+        <addForeignKeyConstraint baseColumnNames="app_id" baseTableName="role" constraintName="fkt8nccycnbpyc52fauighe9lv5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="app"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-35">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_resource_rel" constraintName="fkthoei5wda25g297fq8bf1n1cq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-36">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="permission" constraintName="fktpvwdvckg86mpuk9o2j1h6t15" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-37">
         <insert tableName="role">
             <column name="id" valueNumeric="2"/>
             <column name="enabled" valueBoolean="true"/>
-            <column name="modified_at" valueDate="2018-02-24 10:34:22.076"/>
-            <column name="description" value="Super User Per Tenant For Managing all applications purchased by the tenant"/>
+            <column name="modified_at" valueDate="2018-02-24 22:06:05.059"/>
+            <column name="description" value="User for managing all apps purchased by a tenant."/>
             <column name="is_default" valueBoolean="true"/>
             <column name="name" value="Super User"/>
             <column name="role_id" value="super_user"/>
@@ -287,20 +327,31 @@
         <insert tableName="role">
             <column name="id" valueNumeric="3"/>
             <column name="enabled" valueBoolean="true"/>
-            <column name="modified_at" valueDate="2018-02-24 10:34:22.076"/>
-            <column name="description" value="Admin For Managing a specific Application"/>
+            <column name="modified_at" valueDate="2018-02-24 22:06:05.069"/>
+            <column name="description" value="User for managing specific app."/>
             <column name="is_default" valueBoolean="true"/>
             <column name="name" value="Admin"/>
             <column name="role_id" value="admin"/>
             <column name="app_id"/>
             <column name="tenant_id"/>
         </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="1"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="modified_at" valueDate="2018-02-24 22:06:04.969"/>
+            <column name="description" value="User for managing all tenants."/>
+            <column name="is_default" valueBoolean="true"/>
+            <column name="name" value="Master"/>
+            <column name="role_id" value="master"/>
+            <column name="app_id"/>
+            <column name="tenant_id"/>
+        </insert>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-32">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-38">
         <insert tableName="users">
             <column name="id" valueNumeric="1"/>
-            <column name="enabled"/>
-            <column name="modified_at" valueDate="2018-02-24 10:34:22.076"/>
+            <column name="enabled" value="true"/>
+            <column name="modified_at" valueDate="2018-02-24 22:06:05.201"/>
             <column name="account_expired" valueBoolean="false"/>
             <column name="account_locked" valueBoolean="false"/>
             <column name="credential_expired" valueBoolean="false"/>
@@ -308,12 +359,12 @@
             <column name="first_name" value="Md Zahid"/>
             <column name="last_name" value="Raza"/>
             <column name="mobile" value="890430418"/>
-            <column name="password" value="$2a$10$MxsZScMN3OQC0d64OkwODOAptSaQ00zMqMVi4KsKTV/UVmwK16B7q"/>
+            <column name="password" value="$2a$10$2ZpoWzqhujD9VTikzne0XeQmyDHyfIpuBwjW.JdvjBWSifI5QP4be"/>
             <column name="username" value="zahid7292"/>
             <column name="tenant_id"/>
         </insert>
     </changeSet>
-    <changeSet author="mdzahidraza (generated)" id="1519448952453-33">
+    <changeSet author="mdzahidraza (generated)" id="1519492092613-39">
         <insert tableName="user_role_rel">
             <column name="user_id" valueNumeric="1"/>
             <column name="role_id" valueNumeric="1"/>

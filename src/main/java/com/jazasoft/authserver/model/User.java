@@ -1,6 +1,7 @@
 package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +17,19 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
+    @NotEmpty
     @Column(nullable = false)
     private String firstName;
 
+    @NotEmpty
     @Column(nullable = false)
     private String lastName;
 
+    @NotEmpty
     @Column(nullable = false)
     private String username;
 
+    @NotEmpty
     @Column(nullable = false)
     private String email;
 
@@ -32,15 +37,25 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @NotEmpty
     @Column(nullable = false)
     private String mobile;
 
+    /**
+     * Whether acount was created for some fixed amount of time
+     */
     @Column(nullable = false)
     private Boolean accountExpired;
 
+    /**
+     * Whether account is locked due to failed attempt to login
+     */
     @Column(nullable = false)
     private Boolean accountLocked;
 
+    /**
+     * If user has not changed password for long time
+     */
     @Column(nullable = false)
     private Boolean credentialExpired;
 
@@ -76,6 +91,7 @@ public class User extends BaseEntity implements UserDetails {
         this.accountLocked = false;
         this.accountExpired = false;
         this.credentialExpired = false;
+        this.enabled = true;
     }
 
     @Override
@@ -118,6 +134,20 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return credentialExpired != null && !credentialExpired;
+    }
+
+    /**
+     * If user is active.
+     * @return
+     */
+    @Override
+    public boolean isEnabled() {
+        if (enabled == null) return false;
+        return enabled;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     public String getFirstName() {

@@ -2,6 +2,7 @@ package com.jazasoft.authserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jazasoft.authserver.dto.ResourceScope;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -17,9 +18,11 @@ public class Role extends BaseEntity {
     public static final String ROLE_SUPER_USER = "super_user";
     public static final String ROLE_ADMIN = "admin";
 
+    @NotEmpty
     @Column(nullable = false)
     private String roleId;
 
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
@@ -55,6 +58,14 @@ public class Role extends BaseEntity {
     public Role(String roleId, String name) {
         this.roleId = roleId;
         this.name = name;
+    }
+
+    public Role(String roleId, String name, String desc, Boolean isDefault) {
+        this.roleId = roleId;
+        this.name = name;
+        this.desc = desc;
+        this.isDefault = isDefault;
+        this.enabled = true;
     }
 
     public void addResource(Resource resource, String scopes) {

@@ -1,0 +1,11 @@
+tna: !java.util.Arrays$ArrayList
+- !com.jazasoft.authserver.dto.Permission
+   name: Buyer
+   endpoint: ""
+   key: buyer
+   lastSync: 1519472642174
+- !com.jazasoft.authserver.dto.Permission
+   name: Activity
+   endpoint: ""
+   key: activity
+   lastSync: 1519472642174

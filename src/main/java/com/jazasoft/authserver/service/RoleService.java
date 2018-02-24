@@ -23,14 +23,12 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
     private final Mapper mapper;
-    @Autowired
-    private ResourceRepository resourceRepository;
-    @Autowired
-    private AppRepository appRepository;
+    private final ResourceRepository resourceRepository;
 
-    public RoleService(RoleRepository roleRepository, Mapper mapper) {
+    public RoleService(RoleRepository roleRepository, Mapper mapper, ResourceRepository resourceRepository) {
         this.roleRepository = roleRepository;
         this.mapper = mapper;
+        this.resourceRepository = resourceRepository;
     }
 
     public Role findOne(Long id) {
@@ -64,6 +62,7 @@ public class RoleService {
         logger.debug("save()");
 
         role.setEnabled(true);
+        role.setDefault(true);
         role = roleRepository.save(role);
         if (role.getResources() != null) {
             for (ResourceScope resourceScope: role.getResources()) {

@@ -57,8 +57,8 @@ public class CustomTokenEnhancer implements TokenEnhancer {
                         /**
                          * If User is Admin, No need to specify resource as he has full access to all resources
                          */
-                        boolean isAdmin = user.getRoleList().stream().filter(role -> Role.ROLE_ADMIN.equalsIgnoreCase(role.getRoleId())).count() == 1;
-                        if (!isAdmin) {
+                        boolean isAdminOrSuperUser = user.getRoleList().stream().filter(role -> Role.ROLE_ADMIN.equalsIgnoreCase(role.getRoleId()) || Role.ROLE_SUPER_USER.equalsIgnoreCase(role.getRoleId())).count() > 0;
+                        if (!isAdminOrSuperUser) {
                             Map<String, Set<String>> resources = new HashMap<>();
                             List<Role> roles = user.getRoleList().stream().filter(role -> role.getApp() != null && role.getApp().getId().equals(app.getId())).collect(Collectors.toList());
                             for (Role role: roles) {

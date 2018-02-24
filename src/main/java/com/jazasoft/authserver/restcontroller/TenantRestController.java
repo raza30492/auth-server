@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,7 +58,7 @@ public class TenantRestController {
     }
 
     @PutMapping(ApiUrls.URL_TENANTS_TENANT)
-    public ResponseEntity<?> updateTenant(@PathVariable("tenantId") long id,@Validated @RequestBody Tenant tenant) {
+    public ResponseEntity<?> updateTenant(@PathVariable("tenantId") long id,@Valid @RequestBody Tenant tenant) {
         logger.debug("updateTenant(): id = {}",id);
         if (!tenantService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

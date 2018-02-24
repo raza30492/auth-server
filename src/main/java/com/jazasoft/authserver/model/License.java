@@ -1,6 +1,9 @@
 package com.jazasoft.authserver.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -19,21 +22,26 @@ public class License extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date activatedOn;
 
+    @NotNull
     @Column(nullable = false)
     private Integer validity;
 
     @Column(nullable = false)
     private Boolean active;
 
+    @NotEmpty
     @Column(nullable = false)
     private String licenseType;
 
+    @NotEmpty
     @Column(nullable = false)
     private String licenseFlavour;
 
+    @NotEmpty
     @Column(nullable = false)
     private String entitlementType;
 
+    @NotNull
     @Column(nullable = false)
     private Long entitlement;
 
